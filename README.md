@@ -1,6 +1,6 @@
 # 🏠 Rental Manager Serverless
 
-API serverless para gestionar valores de alquiler usando AWS CDK, Lambda y DynamoDB.
+API serverless para gestionar el alquiler usando AWS CDK, Lambda y DynamoDB.
 
 ## 🏗️ Arquitectura
 
