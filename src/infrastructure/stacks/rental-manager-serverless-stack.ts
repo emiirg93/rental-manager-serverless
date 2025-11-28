@@ -45,7 +45,7 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     // 📖 Lambda Function - Obtener valor de alquiler
     const getRentalValueFunction = new NodejsFunction(this, 'GetRentalValueFunction', {
       runtime: lambda.Runtime.NODEJS_18_X,
-      entry: 'lambda/getRentalValue/index.ts',
+      entry: 'src/lambdas/rental/get-rental-value/index.ts',
       handler: 'handler',
       environment: lambdaEnvironment,
       role: lambdaRole,
@@ -60,7 +60,7 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     // ✏️ Lambda Function - Actualizar valor de alquiler
     const updateRentalValueFunction = new NodejsFunction(this, 'UpdateRentalValueFunction', {
       runtime: lambda.Runtime.NODEJS_18_X,
-      entry: 'lambda/updateRentalValue/index.ts',
+      entry: 'src/lambdas/rental/update-rental-value/index.ts',
       handler: 'handler',
       environment: lambdaEnvironment,
       role: lambdaRole,

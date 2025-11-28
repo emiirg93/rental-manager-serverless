@@ -31,8 +31,17 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@shared": [
+        "src/shared"
+      ],
       "@shared/*": [
-        "lambda/shared/*"
+        "src/shared/*"
+      ],
+      "@infrastructure/*": [
+        "src/infrastructure/*"
+      ],
+      "@lambdas/*": [
+        "src/lambdas/*"
       ],
       "*": [
         "node_modules/*"

@@ -1,23 +1,22 @@
+import { createErrorResponse, createResponse, RENTAL_RECORD_ID, RENTAL_TABLE_NAME } from '@shared';
+import { RentalValue } from '@shared/types';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as AWS from 'aws-sdk';
-import { RentalValue } from '../shared/types';
-import { createErrorResponse, createResponse } from '../shared/utils';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = process.env.TABLE_NAME!;
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Event:', JSON.stringify(event, null, 2));
   
   try {
     const result = await dynamodb.get({
-      TableName: TABLE_NAME,
-      Key: { id: 'current' }
+      TableName: RENTAL_TABLE_NAME,
+      Key: { id: RENTAL_RECORD_ID }
     }).promise();
     
     if (!result.Item) {
       const defaultValue: RentalValue = {
-        id: 'current',
+        id: RENTAL_RECORD_ID,
         amount: 0,
       };
       

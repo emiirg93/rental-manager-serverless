@@ -1,10 +1,17 @@
+import {
+    createErrorResponse,
+    createResponse,
+    DEFAULT_CURRENCY,
+    DEFAULT_DESCRIPTION,
+    RENTAL_RECORD_ID,
+    RENTAL_TABLE_NAME,
+    validateRentalRequest
+} from '@shared';
+import { RentalValue, UpdateRentalValueRequest } from '@shared/types';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as AWS from 'aws-sdk';
-import { RentalValue, UpdateRentalValueRequest } from '../shared/types';
-import { createErrorResponse, createResponse } from '../shared/utils';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = process.env.TABLE_NAME!;
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Event:', JSON.stringify(event, null, 2));
@@ -16,24 +23,19 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     
     const body: UpdateRentalValueRequest = JSON.parse(event.body);
     
-    if (body.amount === undefined || body.amount === null) {
-      return createErrorResponse(400, 'El campo "amount" es requerido');
-    }
-    
-    if (typeof body.amount !== 'number' || body.amount < 0) {
-      return createErrorResponse(400, 'El amount debe ser un número positivo');
-    }
+    // Use validation utility
+    validateRentalRequest(body);
     
     const rentalValue: RentalValue = {
-      id: 'current',
+      id: RENTAL_RECORD_ID,
       amount: body.amount,
-      currency: body.currency || 'ARS',
+      currency: body.currency || DEFAULT_CURRENCY,
       updatedAt: new Date().toISOString(),
-      description: body.description || 'Valor de alquiler mensual'
+      description: body.description || DEFAULT_DESCRIPTION
     };
     
     await dynamodb.put({
-      TableName: TABLE_NAME,
+      TableName: RENTAL_TABLE_NAME,
       Item: rentalValue,
     }).promise();
     

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import 'source-map-support/register';
-import { RentalManagerServerlessStack } from '../lib/rental-manager-serverless-stack';
+import { RentalManagerServerlessStack } from '../src/infrastructure/stacks/rental-manager-serverless-stack';
 
 const app = new cdk.App();
 new RentalManagerServerlessStack(app, 'RentalManagerServerlessStack', {
