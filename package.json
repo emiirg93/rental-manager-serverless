@@ -1,26 +1,36 @@
 {
   "name": "rental-manager-serverless",
   "version": "0.1.0",
+  "description": "API serverless para gestionar el alquiler usando AWS CDK, Lambda y DynamoDB",
+  "author": "Emiliano Rago",
+  "license": "MIT",
+  "keywords": [
+    "aws",
+    "cdk",
+    "lambda",
+    "dynamodb",
+    "serverless",
+    "rental",
+    "api"
+  ],
   "bin": {
     "rental-manager-serverless": "bin/rental-manager-serverless.js"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
+    "@types/aws-lambda": "^8.10.159",
     "@types/node": "^24.10.1",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
     "aws-cdk": "2.1033.0",
+    "aws-sdk": "^2.1691.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.215.0",
+    "aws-cdk-lib": "^2.230.0",
     "constructs": "^10.0.0"
   }
 }

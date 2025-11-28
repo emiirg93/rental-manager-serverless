@@ -1,6 +1,26 @@
+# Source TypeScript files (keep only compiled JS and declarations)
 *.ts
 !*.d.ts
 
-# CDK asset staging directory
+# CDK directories
 .cdk.staging
-cdk.out
+cdk.out/
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test files
+test/
+*.test.*
+*.spec.*
+
+# Documentation source files (keep generated docs)
+docs/
+*.md
+!README.md
+
+# Environment files
+.env*
