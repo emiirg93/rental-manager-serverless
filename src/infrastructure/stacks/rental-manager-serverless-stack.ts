@@ -72,10 +72,27 @@ export class RentalManagerServerlessStack extends cdk.Stack {
       },
     });
 
+    // 💰 Lambda Function - Extraer datos de expensas de PDF
+    const extractExpensasFunction = new NodejsFunction(this, 'ExtractExpensasFunction', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: 'src/lambdas/rental/extract-expensas/index.ts',
+      handler: 'handler',
+      environment: lambdaEnvironment,
+      role: lambdaRole,
+      timeout: cdk.Duration.seconds(60),
+      memorySize: 1024,
+      bundling: {
+        minify: false,
+        sourceMap: true,
+        target: 'es2020',
+      },
+    });
+
     // 🌐 API Gateway REST API
     const api = new apigateway.RestApi(this, 'RentalValueApi', {
       restApiName: 'Rental Value Service',
       description: 'API para gestionar el valor de alquiler',
+      binaryMediaTypes: ['multipart/form-data'], // Importante para multipart
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
@@ -92,6 +109,14 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     // PUT /rental-value - Actualizar el valor
     rentalValue.addMethod('PUT', new apigateway.LambdaIntegration(updateRentalValueFunction));
 
+    // POST /extract-expensas - Extraer datos de expensas de PDF
+    const extractExpensas = api.root.addResource('extract-expensas');
+    extractExpensas.addMethod('POST', new apigateway.LambdaIntegration(extractExpensasFunction), {
+      requestParameters: {
+        'method.request.header.Content-Type': true
+      }
+    });
+
     // 📤 Outputs útiles
     new cdk.CfnOutput(this, 'ApiGatewayUrl', {
       value: api.url,
@@ -106,6 +131,11 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'GetRentalValueEndpoint', {
       value: `${api.url}rental-value`,
       description: 'Endpoint para obtener/actualizar el valor de alquiler'
+    });
+
+    new cdk.CfnOutput(this, 'ExtractExpensasEndpoint', {
+      value: `${api.url}extract-expensas`,
+      description: 'Endpoint para extraer datos de expensas de PDF'
     });
   }
 }
