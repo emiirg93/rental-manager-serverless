@@ -24,6 +24,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.159",
     "@types/node": "^24.10.1",
+    "@types/nodemailer": "^7.0.4",
     "aws-cdk": "2.1033.0",
     "aws-sdk": "^2.1691.0",
     "ts-node": "^10.9.2",
@@ -36,6 +37,7 @@
     "busboy": "^1.6.0",
     "constructs": "^10.0.0",
     "multer": "^2.0.2",
+    "nodemailer": "^7.0.11",
     "pdf2json": "^4.0.0"
   }
 }

@@ -42,6 +42,12 @@ export class RentalManagerServerlessStack extends cdk.Stack {
       REGION: this.region,
     };
 
+    // 🌍 Variables de entorno para la Lambda de email
+    const emailLambdaEnvironment = {
+      EMAIL_USER: process.env.EMAIL_USER || '',
+      EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || '',
+    };
+
     // 📖 Lambda Function - Obtener valor de alquiler
     const getRentalValueFunction = new NodejsFunction(this, 'GetRentalValueFunction', {
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -88,6 +94,21 @@ export class RentalManagerServerlessStack extends cdk.Stack {
       },
     });
 
+    // 📧 Lambda Function - Enviar emails
+    const sendEmailFunction = new NodejsFunction(this, 'SendEmailFunction', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: 'src/lambdas/rental/send-email/index.ts',
+      handler: 'handler',
+      environment: emailLambdaEnvironment,
+      role: lambdaRole,
+      timeout: cdk.Duration.seconds(30),
+      bundling: {
+        minify: false,
+        sourceMap: true,
+        target: 'es2020',
+      },
+    });
+
     // 🌐 API Gateway REST API
     const api = new apigateway.RestApi(this, 'RentalValueApi', {
       restApiName: 'Rental Value Service',
@@ -117,6 +138,10 @@ export class RentalManagerServerlessStack extends cdk.Stack {
       }
     });
 
+    // POST /send-email - Enviar emails
+    const sendEmail = api.root.addResource('send-email');
+    sendEmail.addMethod('POST', new apigateway.LambdaIntegration(sendEmailFunction));
+
     // 📤 Outputs útiles
     new cdk.CfnOutput(this, 'ApiGatewayUrl', {
       value: api.url,
@@ -136,6 +161,11 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'ExtractExpensasEndpoint', {
       value: `${api.url}extract-expensas`,
       description: 'Endpoint para extraer datos de expensas de PDF'
+    });
+
+    new cdk.CfnOutput(this, 'SendEmailEndpoint', {
+      value: `${api.url}send-email`,
+      description: 'Endpoint para enviar emails'
     });
   }
 }

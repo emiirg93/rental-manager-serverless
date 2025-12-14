@@ -33,3 +33,6 @@ jobs:
       
       - name: Deploy with CDK
         run: npx cdk deploy --require-approval never
+        env:
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
