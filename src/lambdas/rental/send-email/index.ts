@@ -1,26 +1,17 @@
 import { createErrorResponse, createResponse } from '@shared';
+import { parseMultipartFormData } from '@shared/utils';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as nodemailer from 'nodemailer';
-
-interface SendEmailRequest {
-  to: string;
-  subject: string;
-  text?: string;
-  html?: string;
-}
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Event:', JSON.stringify(event, null, 2));
   
   try {
-    if (!event.body) {
-      return createErrorResponse(400, 'Body es requerido');
-    }
-
-    const body: SendEmailRequest = JSON.parse(event.body);
+    // Parsear form-data
+    const { fields, files } = await parseMultipartFormData(event);
     
     // Validaciones
-    if (!body.to || !body.subject || (!body.text && !body.html)) {
+    if (!fields.to || !fields.subject || (!fields.text && !fields.html)) {
       return createErrorResponse(
         400, 
         'Faltan campos requeridos',
@@ -37,13 +28,20 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       },
     });
 
+    // Preparar attachments desde los archivos del form-data
+    const attachments = files.map(file => ({
+      filename: file.filename,
+      content: file.buffer,
+    }));
+
     // Enviar el email
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: body.to,
-      subject: body.subject,
-      text: body.text,
-      html: body.html,
+      to: fields.to,
+      subject: fields.subject,
+      text: fields.text,
+      html: fields.html,
+      attachments: attachments.length > 0 ? attachments : undefined,
     });
 
     console.log('Email enviado:', info.messageId);
@@ -52,6 +50,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       messageId: info.messageId,
       accepted: info.accepted,
       rejected: info.rejected,
+      attachmentsCount: attachments.length,
     }, 'Email enviado exitosamente');
 
   } catch (error) {
