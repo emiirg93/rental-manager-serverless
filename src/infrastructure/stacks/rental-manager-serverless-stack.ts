@@ -36,12 +36,6 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     // Dar permisos a Lambda para acceder a DynamoDB
     rentalTable.grantReadWriteData(lambdaRole);
 
-    // Dar permisos a Lambda para enviar emails con SES
-    lambdaRole.addToPolicy(new iam.PolicyStatement({
-      actions: ['ses:SendEmail', 'ses:SendRawEmail'],
-      resources: ['*'],
-    }));
-
     // 🌍 Variables de entorno para las Lambdas
     const lambdaEnvironment = {
       TABLE_NAME: rentalTable.tableName,
@@ -50,8 +44,8 @@ export class RentalManagerServerlessStack extends cdk.Stack {
 
     // 🌍 Variables de entorno para la Lambda de email
     const emailLambdaEnvironment = {
-      REGION: this.region,
-      EMAIL_FROM: process.env.EMAIL_FROM || 'noreply@tudominio.com',
+      EMAIL_USER: process.env.EMAIL_USER || '',
+      EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || '',
     };
 
     // 📖 Lambda Function - Obtener valor de alquiler

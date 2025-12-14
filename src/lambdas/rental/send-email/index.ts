@@ -1,6 +1,6 @@
 import { createErrorResponse, createResponse } from '@shared';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import * as AWS from 'aws-sdk';
+import * as nodemailer from 'nodemailer';
 
 interface SendEmailRequest {
   to: string;
@@ -28,48 +28,30 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       );
     }
 
-    const ses = new AWS.SES({ 
-      apiVersion: '2010-12-01',
-      region: process.env.REGION || 'us-east-1' 
+    // Configurar transporter de nodemailer con Gmail
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
     });
 
-    // Construir el objeto Body dinámicamente
-    const messageBody: AWS.SES.Body = {};
-    
-    if (body.text) {
-      messageBody.Text = {
-        Data: body.text,
-        Charset: 'UTF-8'
-      };
-    }
-    
-    if (body.html) {
-      messageBody.Html = {
-        Data: body.html,
-        Charset: 'UTF-8'
-      };
-    }
+    // Enviar el email
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: body.to,
+      subject: body.subject,
+      text: body.text,
+      html: body.html,
+    });
 
-    const params: AWS.SES.SendEmailRequest = {
-      Source: process.env.EMAIL_FROM || 'noreply@tudominio.com',
-      Destination: {
-        ToAddresses: [body.to]
-      },
-      Message: {
-        Subject: {
-          Data: body.subject,
-          Charset: 'UTF-8'
-        },
-        Body: messageBody
-      }
-    };
-
-    const result = await ses.sendEmail(params).promise();
-
-    console.log('Email enviado:', result.MessageId);
+    console.log('Email enviado:', info.messageId);
 
     return createResponse(200, {
-      messageId: result.MessageId,
+      messageId: info.messageId,
+      accepted: info.accepted,
+      rejected: info.rejected,
     }, 'Email enviado exitosamente');
 
   } catch (error) {
