@@ -33,6 +33,23 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       region: process.env.REGION || 'us-east-1' 
     });
 
+    // Construir el objeto Body dinámicamente
+    const messageBody: AWS.SES.Body = {};
+    
+    if (body.text) {
+      messageBody.Text = {
+        Data: body.text,
+        Charset: 'UTF-8'
+      };
+    }
+    
+    if (body.html) {
+      messageBody.Html = {
+        Data: body.html,
+        Charset: 'UTF-8'
+      };
+    }
+
     const params: AWS.SES.SendEmailRequest = {
       Source: process.env.EMAIL_FROM || 'noreply@tudominio.com',
       Destination: {
@@ -43,16 +60,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
           Data: body.subject,
           Charset: 'UTF-8'
         },
-        Body: {
-          Text: body.text ? {
-            Data: body.text,
-            Charset: 'UTF-8'
-          } : undefined,
-          Html: body.html ? {
-            Data: body.html,
-            Charset: 'UTF-8'
-          } : undefined
-        }
+        Body: messageBody
       }
     };
 
