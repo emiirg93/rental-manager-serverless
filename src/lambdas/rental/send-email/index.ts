@@ -1,6 +1,6 @@
 import { createErrorResponse, createResponse } from '@shared';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import * as nodemailer from 'nodemailer';
+import * as AWS from 'aws-sdk';
 
 interface SendEmailRequest {
   to: string;
@@ -28,34 +28,40 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       );
     }
 
-    // Configurar transporter de nodemailer
-    // Usando Gmail como ejemplo, pero puedes usar otros servicios
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
+    const ses = new AWS.SES({ 
+      apiVersion: '2010-12-01',
+      region: process.env.REGION || 'us-east-1' 
+    });
+
+    const params: AWS.SES.SendEmailRequest = {
+      Source: process.env.EMAIL_FROM || 'noreply@tudominio.com',
+      Destination: {
+        ToAddresses: [body.to]
       },
-    });
+      Message: {
+        Subject: {
+          Data: body.subject,
+          Charset: 'UTF-8'
+        },
+        Body: {
+          Text: body.text ? {
+            Data: body.text,
+            Charset: 'UTF-8'
+          } : undefined,
+          Html: body.html ? {
+            Data: body.html,
+            Charset: 'UTF-8'
+          } : undefined
+        }
+      }
+    };
 
-    // Verificar la conexión
-    await transporter.verify();
+    const result = await ses.sendEmail(params).promise();
 
-    // Enviar el email
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: body.to,
-      subject: body.subject,
-      text: body.text,
-      html: body.html,
-    });
-
-    console.log('Email enviado:', info.messageId);
+    console.log('Email enviado:', result.MessageId);
 
     return createResponse(200, {
-      messageId: info.messageId,
-      accepted: info.accepted,
-      rejected: info.rejected,
+      messageId: result.MessageId,
     }, 'Email enviado exitosamente');
 
   } catch (error) {
