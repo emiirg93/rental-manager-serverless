@@ -44,48 +44,93 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
     <title>Resumen de Alquiler</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+            supported-color-schemes: light dark;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .email-body {
+                background-color: #1a1a1a !important;
+            }
+            .card-main {
+                background-color: #2d2d2d !important;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+            }
+            .text-primary {
+                color: #e5e5e5 !important;
+            }
+            .text-secondary {
+                color: #b0b0b0 !important;
+            }
+            .bg-light {
+                background-color: #3a3a3a !important;
+            }
+            .border-light {
+                border-color: #4a4a4a !important;
+            }
+            .footer-bg {
+                background-color: #2d2d2d !important;
+                border-top-color: #4a4a4a !important;
+            }
+        }
+    </style>
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+<body class="email-body" style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f8f9fa;">
     
     <!-- Container Principal -->
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 40px 20px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 50px 20px;">
         <tr>
             <td align="center">
                 
                 <!-- Card Principal -->
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 650px; background-color: #ffffff; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden;">
+                <table class="card-main" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
                     
                     <!-- Header -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center;">
-                            <h1 style="color: #ffffff; font-size: 32px; font-weight: 700; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                📋 Resumen de Alquiler
-                            </h1>
-                            <p style="color: #f0f0f0; font-size: 18px; margin: 10px 0 0 0; font-weight: 300;">
-                                ${monthName()} ${new Date().getFullYear()}
-                            </p>
+                        <td style="padding: 45px 40px 35px 40px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-bottom: 3px solid #000000;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="vertical-align: middle;">
+                                        <div style="display: inline-block; font-size: 32px; margin-right: 12px;">
+                                            📊
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <h1 style="color: #ffffff; font-size: 26px; font-weight: 600; margin: 0; letter-spacing: -0.5px;">
+                                            Resumen de Alquiler
+                                        </h1>
+                                        <p style="color: #b0b0b0; font-size: 14px; margin: 6px 0 0 0; font-weight: 400;">
+                                            ${monthName()} ${new Date().getFullYear()}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 
                     <!-- Contenido -->
                     <tr>
-                        <td style="padding: 35px 30px;">
+                        <td style="padding: 40px;">
 
                             <!-- Alquiler Bruto -->
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; overflow: hidden;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td style="padding: 25px;">
+                                    <td style="padding: 28px 30px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 12px; border-left: 4px solid #000000;">
                                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
-                                                <td style="vertical-align: middle;">
-                                                    <div style="background-color: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 12px; display: inline-block; text-align: center; line-height: 50px; font-size: 24px;">
-                                                        🏠
-                                                    </div>
+                                                <td style="vertical-align: middle; width: 45px;">
+                                                    <div style="font-size: 28px;">🏠</div>
                                                 </td>
-                                                <td style="padding-left: 15px; vertical-align: middle;">
-                                                    <p style="margin: 0; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500;">Alquiler Bruto</p>
-                                                    <p style="margin: 5px 0 0 0; color: #ffffff; font-size: 28px; font-weight: 700;">
+                                                <td style="vertical-align: middle;">
+                                                    <p style="margin: 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px;">
+                                                        Alquiler Bruto
+                                                    </p>
+                                                    <p style="margin: 6px 0 0 0; color: #ffffff; font-size: 32px; font-weight: 600; letter-spacing: -1px;">
                                                         ${formatToARS(data.alquilerBruto)}
                                                     </p>
                                                 </td>
@@ -96,57 +141,57 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                             </table>
 
                             <!-- Expensas -->
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 25px; background-color: #f8f9fa; border-radius: 15px; border: 2px solid #e9ecef;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td style="padding: 25px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <td class="border-light" style="padding: 0 0 18px 0; border-bottom: 3px solid #1a1a1a;">
+                                        <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td colspan="2" style="padding-bottom: 20px;">
-                                                    <table border="0" cellpadding="0" cellspacing="0">
-                                                        <tr>
-                                                            <td style="vertical-align: middle;">
-                                                                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); width: 40px; height: 40px; border-radius: 10px; display: inline-block; text-align: center; line-height: 40px; font-size: 20px;">
-                                                                    💰
-                                                                </div>
-                                                            </td>
-                                                            <td style="padding-left: 12px; vertical-align: middle;">
-                                                                <h2 style="margin: 0; color: #2d3748; font-size: 20px; font-weight: 600;">Expensas</h2>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                <td style="vertical-align: middle; padding-right: 10px;">
+                                                    <div style="font-size: 24px;">💰</div>
+                                                </td>
+                                                <td style="vertical-align: middle;">
+                                                    <h2 class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
+                                                        Expensas
+                                                    </h2>
                                                 </td>
                                             </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 20px 0 0 0;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             ${data.expensas.ordinarias ? `
                                             <tr>
-                                                <td style="padding: 8px 0; color: #718096; font-size: 15px;">Ordinarias</td>
-                                                <td align="right" style="padding: 8px 0; color: #2d3748; font-size: 15px; font-weight: 600;">
+                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Ordinarias</td>
+                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
                                                     ${formatToARS(data.expensas.ordinarias)}
                                                 </td>
                                             </tr>
                                             ` : ''}
                                             <tr>
-                                                <td style="padding: 8px 0; color: #718096; font-size: 15px;">Extraordinarias</td>
-                                                <td align="right" style="padding: 8px 0; color: #2d3748; font-size: 15px; font-weight: 600;">
+                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Extraordinarias</td>
+                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
                                                     ${formatToARS(data.expensas.extraordinarias)}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="padding: 12px 0;">
-                                                    <div style="height: 2px; background: linear-gradient(to right, #f093fb, #f5576c); border-radius: 2px;"></div>
+                                                <td colspan="2" style="padding: 16px 0 12px 0;">
+                                                    <div class="border-light" style="height: 1px; background-color: #e5e5e5;"></div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="padding: 8px 0; color: #2d3748; font-size: 16px; font-weight: 600;">Total Expensas</td>
-                                                <td align="right" style="padding: 8px 0; color: #f5576c; font-size: 20px; font-weight: 700;">
+                                                <td class="text-primary" style="padding: 10px 0; color: #1a1a1a; font-size: 16px; font-weight: 600;">Total</td>
+                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
                                                     ${formatToARS(data.expensas.total1erVencimiento || data.expensas.extraordinarias)}
                                                 </td>
                                             </tr>
                                             ${data.expensas.fechaVencimiento ? `
                                             <tr>
-                                                <td colspan="2" style="padding-top: 12px;">
-                                                    <div style="background-color: #fff5f5; border-left: 4px solid #f5576c; padding: 12px 15px; border-radius: 8px;">
-                                                        <p style="margin: 0; color: #c53030; font-size: 13px; font-weight: 500;">
-                                                            📅 Vencimiento: ${data.expensas.fechaVencimiento}
+                                                <td colspan="2" style="padding-top: 20px;">
+                                                    <div class="bg-light border-light" style="background-color: #f9f9f9; border-left: 3px solid #1a1a1a; padding: 14px 18px; border-radius: 4px;">
+                                                        <p class="text-primary" style="margin: 0; color: #4a4a4a; font-size: 14px; font-weight: 500;">
+                                                            Vencimiento: ${data.expensas.fechaVencimiento}
                                                         </p>
                                                     </div>
                                                 </td>
@@ -158,118 +203,115 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                             </table>
 
                             <!-- Arreglos -->
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 25px; background-color: #f8f9fa; border-radius: 15px; border: 2px solid #e9ecef;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td style="padding: 25px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <td class="border-light" style="padding: 0 0 18px 0; border-bottom: 3px solid #1a1a1a;">
+                                        <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td colspan="2" style="padding-bottom: ${data.arreglos ? '20px' : '0'};">
-                                                    <table border="0" cellpadding="0" cellspacing="0">
-                                                        <tr>
-                                                            <td style="vertical-align: middle;">
-                                                                <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); width: 40px; height: 40px; border-radius: 10px; display: inline-block; text-align: center; line-height: 40px; font-size: 20px;">
-                                                                    🔧
-                                                                </div>
-                                                            </td>
-                                                            <td style="padding-left: 12px; vertical-align: middle;">
-                                                                <h2 style="margin: 0; color: #2d3748; font-size: 20px; font-weight: 600;">Arreglos</h2>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                <td style="vertical-align: middle; padding-right: 10px;">
+                                                    <div style="font-size: 24px;">🔧</div>
+                                                </td>
+                                                <td style="vertical-align: middle;">
+                                                    <h2 class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
+                                                        Arreglos del Departamento
+                                                    </h2>
                                                 </td>
                                             </tr>
-                                            ${data.arreglos ? `
+                                        </table>
+                                    </td>
+                                </tr>
+                                ${data.arreglos ? `
+                                <tr>
+                                    <td style="padding: 20px 0 0 0;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
-                                                <td colspan="2" style="padding: 12px 0 8px 0;">
-                                                    <div style="background-color: #e6f7ff; border-left: 4px solid #00f2fe; padding: 12px 15px; border-radius: 8px; margin-bottom: 15px;">
-                                                        <p style="margin: 0; color: #0c4a6e; font-size: 14px; font-weight: 500;">
+                                                <td colspan="2" style="padding: 0 0 18px 0;">
+                                                    <div class="bg-light" style="background-color: #f9f9f9; padding: 16px 18px; border-radius: 4px;">
+                                                        <p class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 14px; font-weight: 500; line-height: 1.5;">
                                                             ${data.arreglos.descripcion}
                                                         </p>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="padding: 8px 0; color: #718096; font-size: 15px;">Cuota Actual</td>
-                                                <td align="right" style="padding: 8px 0; color: #2d3748; font-size: 15px; font-weight: 600;">
-                                                    ${data.arreglos.cuotaActual} / ${data.arreglos.cantidadCuotas}
+                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Cuota</td>
+                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                    ${data.arreglos.cuotaActual} de ${data.arreglos.cantidadCuotas}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="padding: 8px 0; color: #718096; font-size: 15px;">Valor a Descontar</td>
-                                                <td align="right" style="padding: 8px 0; color: #2d3748; font-size: 15px; font-weight: 600;">
+                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Valor a Descontar</td>
+                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
                                                     ${formatToARS(data.arreglos.costoPorMes)}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2" style="padding: 12px 0;">
-                                                    <div style="height: 2px; background: linear-gradient(to right, #4facfe, #00f2fe); border-radius: 2px;"></div>
+                                                <td colspan="2" style="padding: 16px 0 12px 0;">
+                                                    <div class="border-light" style="height: 1px; background-color: #e5e5e5;"></div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="padding: 8px 0; color: #2d3748; font-size: 16px; font-weight: 600;">Costo Total del Arreglo</td>
-                                                <td align="right" style="padding: 8px 0; color: #00f2fe; font-size: 20px; font-weight: 700;">
+                                                <td class="text-primary" style="padding: 10px 0; color: #1a1a1a; font-size: 16px; font-weight: 600;">Costo Total</td>
+                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
                                                     ${formatToARS(data.arreglos.costoTotal)}
                                                 </td>
                                             </tr>
-                                            ` : `
-                                            <tr>
-                                                <td colspan="2" style="padding-top: 15px; text-align: center;">
-                                                    <div style="padding: 30px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 12px;">
-                                                        <p style="margin: 0; color: #718096; font-size: 16px; font-weight: 600; letter-spacing: 1px;">
-                                                            NO APLICA
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            `}
                                         </table>
                                     </td>
                                 </tr>
+                                ` : `
+                                <tr>
+                                    <td style="padding: 20px 0 0 0; text-align: center;">
+                                        <div class="bg-light" style="padding: 35px 20px; background-color: #fafafa; border-radius: 6px;">
+                                            <p class="text-secondary" style="margin: 0; color: #9b9b9b; font-size: 14px; font-weight: 500; letter-spacing: 0.5px;">
+                                                NO APLICA
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                `}
                             </table>
 
                             <!-- Comentarios -->
                             ${data.comentario ? `
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 25px; background-color: #fffbeb; border-radius: 15px; border: 2px solid #fbbf24;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td style="padding: 25px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <td class="border-light" style="padding: 0 0 18px 0; border-bottom: 3px solid #1a1a1a;">
+                                        <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td style="padding-bottom: 15px;">
-                                                    <table border="0" cellpadding="0" cellspacing="0">
-                                                        <tr>
-                                                            <td style="vertical-align: middle;">
-                                                                <div style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); width: 40px; height: 40px; border-radius: 10px; display: inline-block; text-align: center; line-height: 40px; font-size: 20px;">
-                                                                    💬
-                                                                </div>
-                                                            </td>
-                                                            <td style="padding-left: 12px; vertical-align: middle;">
-                                                                <h2 style="margin: 0; color: #92400e; font-size: 20px; font-weight: 600;">Comentarios</h2>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                <td style="vertical-align: middle; padding-right: 10px;">
+                                                    <div style="font-size: 24px;">💬</div>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <p style="margin: 0; color: #78350f; font-size: 15px; line-height: 1.6; font-weight: 400;">
-                                                        ${data.comentario}
-                                                    </p>
+                                                <td style="vertical-align: middle;">
+                                                    <h2 class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
+                                                        Comentarios
+                                                    </h2>
                                                 </td>
                                             </tr>
                                         </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 20px 0 0 0;">
+                                        <div class="bg-light border-light" style="background-color: #f9f9f9; padding: 20px; border-radius: 6px; border-left: 3px solid #6b6b6b;">
+                                            <p class="text-primary" style="margin: 0; color: #4a4a4a; font-size: 15px; line-height: 1.6; font-weight: 400;">
+                                                ${data.comentario}
+                                            </p>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
                             ` : ''}
 
                             <!-- Total a Pagar -->
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 15px; box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 35px;">
                                 <tr>
-                                    <td style="padding: 30px; text-align: center;">
-                                        <p style="margin: 0 0 12px 0; color: rgba(255,255,255,0.95); font-size: 18px; font-weight: 500; letter-spacing: 1px;">
-                                            💵 TOTAL A PAGAR
+                                    <td style="padding: 35px 30px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 12px; text-align: center; border: 3px solid #000000;">
+                                        <div style="font-size: 32px; margin-bottom: 12px;">💵</div>
+                                        <p style="margin: 0 0 12px 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
+                                            Total a Pagar
                                         </p>
-                                        <p style="margin: 0; color: #ffffff; font-size: 42px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <p style="margin: 0; color: #ffffff; font-size: 42px; font-weight: 600; letter-spacing: -1.5px;">
                                             ${formatToARS(data.alquilerNeto)}
                                         </p>
                                     </td>
@@ -281,18 +323,13 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
 
                     <!-- Footer -->
                     <tr>
-                        <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-top: 1px solid #e9ecef;">
-                            <p style="margin: 0 0 8px 0; color: #718096; font-size: 14px; font-style: italic;">
-                                Gracias por todo. Cualquier consulta, estamos en contacto.
+                        <td class="footer-bg" style="padding: 35px 40px; background-color: #f8f9fa; border-top: 3px solid #e5e5e5; text-align: center;">
+                            <p class="text-secondary" style="margin: 0 0 8px 0; color: #6b6b6b; font-size: 14px; line-height: 1.6;">
+                                Gracias por todo. Cualquier consulta, estamos en contacto. 🤝
                             </p>
-                            <p style="margin: 0; color: #2d3748; font-size: 16px; font-weight: 600;">
-                                Emiliano Rago - Colpayo 616 6B
+                            <p class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 15px; font-weight: 600;">
+                                Emiliano Rago · Colpayo 616 6B
                             </p>
-                            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e9ecef;">
-                                <p style="margin: 0; color: #a0aec0; font-size: 12px;">
-                                    Este es un mensaje automático, por favor no responder directamente.
-                                </p>
-                            </div>
                         </td>
                     </tr>
 
