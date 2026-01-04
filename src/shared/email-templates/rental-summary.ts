@@ -1,19 +1,23 @@
+interface Expensas {
+  ordinarias?: number;
+  extraordinarias: number;
+  total1erVencimiento?: number;
+  fechaVencimiento?: string;
+}
+
+interface Arreglos {
+  descripcion: string;
+  costoTotal: number;
+  cantidadCuotas: string;
+  cuotaActual: string;
+  costoPorMes: number;
+}
+
 export interface RentalSummaryData {
-  detalleAlquiler: {
-    alquiler: number;
-    expensas: {
-      extraordinarias: number;
-      totalExpensas: number;
-    };
-    arreglos?: {
-      descripcion: string;
-      cantidadCuotas: number;
-      cuotaActual: number;
-      costoPorMes: number;
-      costoTotal: number;
-    };
-    comentario?: string;
-  };
+  expensas: Expensas;
+  arreglos?: Arreglos;
+  alquiler: number;
+  comentario?: string;
 }
 
 const formatToARS = (amount: number): string => {
@@ -32,8 +36,6 @@ const monthName = (): string => {
 };
 
 export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
-  const { detalleAlquiler } = data;
-  
   return `
     <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -68,11 +70,11 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                 </tr>
                                 <tr>
                                     <td align="right" style="font-size: 24px; font-weight: 600; color: #4355b9;">
-                                        ${formatToARS(detalleAlquiler.alquiler)}
+                                <tr>
+                                    <td align="right" style="font-size: 24px; font-weight: 600; color: #4355b9;">
+                                        ${formatToARS(data.alquiler)}
                                     </td>
                                 </tr>
-                            </table>
-                        </td>
                     </tr>
                 </table>
                 <!-- Expensas -->
@@ -94,7 +96,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                                 <td style="font-size: 14px; color: #666666;">Extraordinarias</td>
                                                 <td align="right"
                                                     style="font-size: 14px; font-weight: 500; color: #333333;">
-                                                    ${formatToARS(detalleAlquiler.expensas.extraordinarias)}</td>
+                                                    ${formatToARS(data.expensas.extraordinarias)}</td>
                                             </tr>
                                         </table>
                                         <hr
@@ -105,7 +107,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                                 </td>
                                                 <td align="right"
                                                     style="font-size: 16px; font-weight: 600; color: #4355b9;">
-                                                    ${formatToARS(detalleAlquiler.expensas.totalExpensas)}</td>
+                                                    ${formatToARS(data.expensas.total1erVencimiento || data.expensas.extraordinarias)}</td>
                                             </tr>
                                         </table>
                                     </td>
@@ -127,7 +129,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                     </td>
                                 </tr>
                                 ${
-                                  detalleAlquiler.arreglos
+                                  data.arreglos
                                     ? `
                                 <tr>
                                     <td>
@@ -137,21 +139,21 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                                 <td style="font-size: 14px; color: #666666;">Descripcion</td>
                                                 <td align="right"
                                                     style="font-size: 14px; font-weight: 500; color: #333333;">
-                                                    ${detalleAlquiler.arreglos.descripcion || 'N/A'}
+                                                    ${data.arreglos.descripcion || 'N/A'}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style="font-size: 14px; color: #666666;">Cantidad de Cuotas</td>
                                                 <td align="right"
                                                     style="font-size: 14px; font-weight: 500; color: #333333;">
-                                                    ${detalleAlquiler.arreglos.cantidadCuotas || 'N/A'}
+                                                    ${data.arreglos.cantidadCuotas || 'N/A'}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style="font-size: 14px; color: #666666;">Cuota Actual</td>
                                                 <td align="right"
                                                     style="font-size: 14px; font-weight: 500; color: #333333;">
-                                                    ${detalleAlquiler.arreglos.cuotaActual || 'N/A'}/${detalleAlquiler.arreglos.cantidadCuotas || 'N/A'}
+                                                    ${data.arreglos.cuotaActual || 'N/A'}/${data.arreglos.cantidadCuotas || 'N/A'}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -159,10 +161,10 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                                 <td align="right"
                                                     style="font-size: 14px; font-weight: 500; color: #333333;">
                                                     ${
-                                                      detalleAlquiler.arreglos
+                                                      data.arreglos
                                                         .costoPorMes
                                                         ? formatToARS(
-                                                            detalleAlquiler
+                                                            data
                                                               .arreglos
                                                               .costoPorMes,
                                                           )
@@ -180,10 +182,10 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                                 <td align="right"
                                                     style="font-size: 16px; font-weight: 600; color: #4355b9;">
                                                     ${
-                                                      detalleAlquiler.arreglos
+                                                      data.arreglos
                                                         .costoTotal
                                                         ? formatToARS(
-                                                            detalleAlquiler
+                                                            data
                                                               .arreglos
                                                               .costoTotal,
                                                           )
@@ -231,7 +233,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                 <tr>
                                     <td
                                         style="padding: 15px; background-color: #f9fafb; border-radius: 6px; font-size: 14px; color: #4b5563; line-height: 1.5;">
-                                        ${detalleAlquiler.comentario || 'No hay comentarios adicionales para este mes.'}
+                                        ${data.comentario || 'No hay comentarios adicionales para este mes.'}
                                     </td>
                                 </tr>
                             </table>
@@ -253,7 +255,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                 </tr>
                                 <tr>
                                     <td align="center" style="font-size: 28px; font-weight: 700; color: #ffffff;">
-                                        ${formatToARS(detalleAlquiler.alquiler)}
+                                        ${formatToARS(data.alquiler)}
                                     </td>
                                 </tr>
                             </table>
