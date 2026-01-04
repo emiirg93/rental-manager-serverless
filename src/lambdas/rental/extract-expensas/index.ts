@@ -1,10 +1,10 @@
 import {
-    createErrorResponse,
-    createResponse,
-    extraerTextoOrdenado,
-    parseMultipartFormData,
-    validateFileMimeType,
-    validateFileSize,
+  createErrorResponse,
+  createResponse,
+  extraerTextoOrdenado,
+  parseMultipartFormData,
+  validateFileMimeType,
+  validateFileSize,
 } from '@shared';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
@@ -13,8 +13,8 @@ const MAX_FILE_SIZE_MB = 10;
 const ALLOWED_MIME_TYPES = ['application/pdf'];
 
 interface ExpensasExtraidas {
-  expensasOrdinarias: number | null;
-  expensasExtraordinarias: number | null;
+  ordinarias: number | null;
+  extraordinarias: number | null;
   total1erVencimiento: number | null;
   fechaVencimiento: string | null;
 }
@@ -24,8 +24,8 @@ interface ExpensasExtraidas {
  */
 function extraerExpensas(texto: string): ExpensasExtraidas {
   const resultado: ExpensasExtraidas = {
-    expensasOrdinarias: null,
-    expensasExtraordinarias: null,
+    ordinarias: null,
+    extraordinarias: null,
     total1erVencimiento: null,
     fechaVencimiento: null,
   };
@@ -40,7 +40,7 @@ function extraerExpensas(texto: string): ExpensasExtraidas {
   if (matchOrdinarias) {
     // Limpiar el número: remover espacios, convertir puntos de miles y comas decimales
     const numeroLimpio = matchOrdinarias[1].replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
-    resultado.expensasOrdinarias = parseFloat(numeroLimpio);
+    resultado.ordinarias = parseFloat(numeroLimpio);
   }
 
   // Buscar "Exp. Extraord." - el texto viene como "E x p . E x t r a o r d ."
@@ -48,7 +48,7 @@ function extraerExpensas(texto: string): ExpensasExtraidas {
   const matchExtraord = textoNormalizado.match(regexExtraord);
   if (matchExtraord) {
     const numeroLimpio = matchExtraord[1].replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
-    resultado.expensasExtraordinarias = parseFloat(numeroLimpio);
+    resultado.extraordinarias = parseFloat(numeroLimpio);
   }
 
   // Buscar "Total 1º vto" - el texto viene como "T o t a l 1 º v t o : 1 0 / 1 1 / 2 0 2 5"
@@ -125,8 +125,8 @@ export const handler = async (
 
     // Validar que se hayan encontrado al menos algunos datos
     if (
-      expensas.expensasOrdinarias === null &&
-      expensas.expensasExtraordinarias === null &&
+      expensas.ordinarias === null &&
+      expensas.extraordinarias === null &&
       expensas.total1erVencimiento === null
     ) {
       return createResponse(200, {
@@ -148,12 +148,7 @@ export const handler = async (
         tamaño: file.size,
         tipo: file.mimetype,
       },
-      expensas: {
-        expensasOrdinarias: expensas.expensasOrdinarias,
-        expensasExtraordinarias: expensas.expensasExtraordinarias,
-        total1erVencimiento: expensas.total1erVencimiento,
-        fechaVencimiento: expensas.fechaVencimiento,
-      },
+      expensas,
       // Incluir campos adicionales si se enviaron
       ...(Object.keys(fields).length > 0 && { campos: fields }),
     });
