@@ -16,7 +16,8 @@ interface Arreglos {
 export interface RentalSummaryData {
   expensas: Expensas;
   arreglos?: Arreglos;
-  alquiler: number;
+  alquilerBruto:number;
+  alquilerNeto: number;
   comentario?: string;
 }
 
@@ -36,7 +37,8 @@ const monthName = (): string => {
 };
 
 export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
-  return `
+    console.log('Generating rental summary with data:', data);
+    return `
     <!DOCTYPE html
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
@@ -72,7 +74,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                     <td align="right" style="font-size: 24px; font-weight: 600; color: #4355b9;">
                                 <tr>
                                     <td align="right" style="font-size: 24px; font-weight: 600; color: #4355b9;">
-                                        ${formatToARS(data.alquiler)}
+                                        ${formatToARS(data.alquilerBruto)}
                                     </td>
                                 </tr>
                     </tr>
@@ -255,7 +257,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                 </tr>
                                 <tr>
                                     <td align="center" style="font-size: 28px; font-weight: 700; color: #ffffff;">
-                                        ${formatToARS(data.alquiler)}
+                                        ${formatToARS(data.alquilerNeto)}
                                     </td>
                                 </tr>
                             </table>
