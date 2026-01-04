@@ -1,8 +1,8 @@
 import { createErrorResponse, createResponse } from '@shared';
-import { paymentConfirmationTemplate, rentalNotificationTemplate } from '@shared/email-templates';
 import { parseMultipartFormData } from '@shared/utils';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as nodemailer from 'nodemailer';
+import { rentalSummaryTemplate } from './../../../shared/email-templates/rental-summary';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Event:', JSON.stringify(event, null, 2));
@@ -37,9 +37,11 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
     // Generar HTML según el template solicitado
     let html = fields.html || '';
+
+    html = rentalSummaryTemplate(fields.templateData ? JSON.parse(fields.templateData) : {});
     
     // Si se especifica un template, usarlo
-    if (fields.template) {
+    /* if (fields.template) {
       const templateData = fields.templateData ? JSON.parse(fields.templateData) : {};
       
       switch (fields.template) {
@@ -52,23 +54,22 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
         default:
           return createErrorResponse(400, 'Template no válido');
       }
-    }
+    } */
 
     // Validar que haya contenido
-    if (!html && !fields.text) {
+    /* if (!html && !fields.text) {
       return createErrorResponse(
         400,
         'Falta contenido',
         'Debes especificar "text", "html" o "template"'
       );
-    }
+    } */
 
     // Enviar el email
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: fields.to,
       subject: fields.subject,
-      text: fields.text,
       html: html,
       attachments: attachments.length > 0 ? attachments : undefined,
     });
