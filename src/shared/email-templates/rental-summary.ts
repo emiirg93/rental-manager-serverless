@@ -44,49 +44,9 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="supported-color-schemes" content="light dark" />
     <title>Resumen de Alquiler</title>
-    <style>
-        :root {
-            color-scheme: light dark;
-            supported-color-schemes: light dark;
-        }
-        
-        @media (prefers-color-scheme: dark) {
-            .email-body {
-                background-color: #1a1a1a !important;
-            }
-            .card-main {
-                background-color: #2d2d2d !important;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
-            }
-            .text-primary {
-                color: #ffffff !important;
-            }
-            .text-secondary {
-                color: #b0b0b0 !important;
-            }
-            .text-muted {
-                color: #8a8a8a !important;
-            }
-            .bg-light {
-                background-color: #3a3a3a !important;
-            }
-            .border-light {
-                border-color: #4a4a4a !important;
-            }
-            .footer-bg {
-                background-color: #2d2d2d !important;
-                border-top-color: #4a4a4a !important;
-            }
-            .highlight-amount {
-                color: #ffffff !important;
-            }
-        }
-    </style>
 </head>
-<body class="email-body" style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f8f9fa;">
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f5f5f5;">
     
     <!-- Container Principal -->
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 50px 20px;">
@@ -94,11 +54,11 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
             <td align="center">
                 
                 <!-- Card Principal -->
-                <table class="card-main" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
                     
                     <!-- Header -->
                     <tr>
-                        <td style="padding: 45px 40px 35px 40px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-bottom: 3px solid #000000;">
+                        <td style="padding: 45px 40px 35px 40px; background-color: #5B6FDB;">
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td style="vertical-align: middle;">
@@ -126,17 +86,17 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                             <!-- Alquiler Bruto -->
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td style="padding: 28px 30px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 12px; border-left: 4px solid #000000;">
+                                    <td style="padding: 28px 30px; background-color: #5B6FDB; border-radius: 12px;">
                                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
                                                 <td style="vertical-align: middle; width: 45px;">
                                                     <div style="font-size: 28px;">🏠</div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <p class="text-muted" style="margin: 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px;">
+                                                    <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px;">
                                                         Alquiler Bruto
                                                     </p>
-                                                    <p class="highlight-amount" style="margin: 6px 0 0 0; color: #ffffff; font-size: 32px; font-weight: 600; letter-spacing: -1px;">
+                                                    <p style="margin: 6px 0 0 0; color: #ffffff; font-size: 32px; font-weight: 600; letter-spacing: -1px;">
                                                         ${formatToARS(data.alquilerBruto)}
                                                     </p>
                                                 </td>
@@ -149,14 +109,14 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                             <!-- Expensas -->
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td class="border-light" style="padding: 0 0 18px 0; border-bottom: 3px solid #1a1a1a;">
+                                    <td style="padding: 0 0 18px 0; border-bottom: 3px solid #5B6FDB;">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td style="vertical-align: middle; padding-right: 10px;">
                                                     <div style="font-size: 24px;">💰</div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <h2 class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
+                                                    <h2 style="margin: 0; color: #2d3748; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
                                                         Expensas
                                                     </h2>
                                                 </td>
@@ -169,34 +129,34 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             ${data.expensas.ordinarias ? `
                                             <tr>
-                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Ordinarias</td>
-                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td style="padding: 10px 0; color: #718096; font-size: 15px;">Ordinarias</td>
+                                                <td align="right" style="padding: 10px 0; color: #5B6FDB; font-size: 15px; font-weight: 600;">
                                                     ${formatToARS(data.expensas.ordinarias)}
                                                 </td>
                                             </tr>
                                             ` : ''}
                                             <tr>
-                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Extraordinarias</td>
-                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td style="padding: 10px 0; color: #718096; font-size: 15px;">Extraordinarias</td>
+                                                <td align="right" style="padding: 10px 0; color: #5B6FDB; font-size: 15px; font-weight: 600;">
                                                     ${formatToARS(data.expensas.extraordinarias)}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" style="padding: 16px 0 12px 0;">
-                                                    <div class="border-light" style="height: 1px; background-color: #e5e5e5;"></div>
+                                                    <div style="height: 1px; background-color: #e2e8f0;"></div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-primary" style="padding: 10px 0; color: #1a1a1a; font-size: 16px; font-weight: 600;">Total</td>
-                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
+                                                <td style="padding: 10px 0; color: #2d3748; font-size: 16px; font-weight: 600;">Total</td>
+                                                <td align="right" style="padding: 10px 0; color: #5B6FDB; font-size: 18px; font-weight: 700;">
                                                     ${formatToARS(data.expensas.total1erVencimiento || data.expensas.extraordinarias)}
                                                 </td>
                                             </tr>
                                             ${data.expensas.fechaVencimiento ? `
                                             <tr>
                                                 <td colspan="2" style="padding-top: 20px;">
-                                                    <div class="bg-light border-light" style="background-color: #f9f9f9; border-left: 3px solid #1a1a1a; padding: 14px 18px; border-radius: 4px;">
-                                                        <p class="text-primary" style="margin: 0; color: #4a4a4a; font-size: 14px; font-weight: 500;">
+                                                    <div style="background-color: #EBF4FF; border-left: 3px solid #5B6FDB; padding: 14px 18px; border-radius: 4px;">
+                                                        <p style="margin: 0; color: #2d3748; font-size: 14px; font-weight: 500;">
                                                             Vencimiento: ${data.expensas.fechaVencimiento}
                                                         </p>
                                                     </div>
@@ -211,14 +171,14 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                             <!-- Arreglos -->
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td class="border-light" style="padding: 0 0 18px 0; border-bottom: 3px solid #1a1a1a;">
+                                    <td style="padding: 0 0 18px 0; border-bottom: 3px solid #5B6FDB;">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td style="vertical-align: middle; padding-right: 10px;">
                                                     <div style="font-size: 24px;">🔧</div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <h2 class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
+                                                    <h2 style="margin: 0; color: #2d3748; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
                                                         Arreglos del Departamento
                                                     </h2>
                                                 </td>
@@ -232,33 +192,33 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                             <tr>
                                                 <td colspan="2" style="padding: 0 0 18px 0;">
-                                                    <div class="bg-light" style="background-color: #f9f9f9; padding: 16px 18px; border-radius: 4px;">
-                                                        <p class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 14px; font-weight: 500; line-height: 1.5;">
+                                                    <div style="background-color: #f7fafc; padding: 16px 18px; border-radius: 4px;">
+                                                        <p style="margin: 0; color: #2d3748; font-size: 14px; font-weight: 500; line-height: 1.5;">
                                                             ${data.arreglos.descripcion}
                                                         </p>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Cuota</td>
-                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td style="padding: 10px 0; color: #718096; font-size: 15px;">Cuota</td>
+                                                <td align="right" style="padding: 10px 0; color: #5B6FDB; font-size: 15px; font-weight: 600;">
                                                     ${data.arreglos.cuotaActual} de ${data.arreglos.cantidadCuotas}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Valor a Descontar</td>
-                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td style="padding: 10px 0; color: #718096; font-size: 15px;">Valor a Descontar</td>
+                                                <td align="right" style="padding: 10px 0; color: #5B6FDB; font-size: 15px; font-weight: 600;">
                                                     ${formatToARS(data.arreglos.costoPorMes)}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" style="padding: 16px 0 12px 0;">
-                                                    <div class="border-light" style="height: 1px; background-color: #e5e5e5;"></div>
+                                                    <div style="height: 1px; background-color: #e2e8f0;"></div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-primary" style="padding: 10px 0; color: #1a1a1a; font-size: 16px; font-weight: 600;">Costo Total</td>
-                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
+                                                <td style="padding: 10px 0; color: #2d3748; font-size: 16px; font-weight: 600;">Costo Total</td>
+                                                <td align="right" style="padding: 10px 0; color: #5B6FDB; font-size: 18px; font-weight: 700;">
                                                     ${formatToARS(data.arreglos.costoTotal)}
                                                 </td>
                                             </tr>
@@ -268,8 +228,8 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                 ` : `
                                 <tr>
                                     <td style="padding: 20px 0 0 0; text-align: center;">
-                                        <div class="bg-light" style="padding: 35px 20px; background-color: #fafafa; border-radius: 6px;">
-                                            <p class="text-secondary" style="margin: 0; color: #9b9b9b; font-size: 14px; font-weight: 500; letter-spacing: 0.5px;">
+                                        <div style="padding: 35px 20px; background-color: #f7fafc; border-radius: 6px;">
+                                            <p style="margin: 0; color: #a0aec0; font-size: 14px; font-weight: 500; letter-spacing: 0.5px;">
                                                 NO APLICA
                                             </p>
                                         </div>
@@ -282,14 +242,14 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                             ${data.comentario ? `
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;">
                                 <tr>
-                                    <td class="border-light" style="padding: 0 0 18px 0; border-bottom: 3px solid #1a1a1a;">
+                                    <td style="padding: 0 0 18px 0; border-bottom: 3px solid #5B6FDB;">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td style="vertical-align: middle; padding-right: 10px;">
                                                     <div style="font-size: 24px;">💬</div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <h2 class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
+                                                    <h2 style="margin: 0; color: #2d3748; font-size: 18px; font-weight: 600; letter-spacing: -0.3px;">
                                                         Comentarios
                                                     </h2>
                                                 </td>
@@ -299,8 +259,8 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                 </tr>
                                 <tr>
                                     <td style="padding: 20px 0 0 0;">
-                                        <div class="bg-light border-light" style="background-color: #f9f9f9; padding: 20px; border-radius: 6px; border-left: 3px solid #6b6b6b;">
-                                            <p class="text-primary" style="margin: 0; color: #4a4a4a; font-size: 15px; line-height: 1.6; font-weight: 400;">
+                                        <div style="background-color: #EBF4FF; padding: 20px; border-radius: 6px; border-left: 3px solid #5B6FDB;">
+                                            <p style="margin: 0; color: #2d3748; font-size: 15px; line-height: 1.6; font-weight: 400;">
                                                 ${data.comentario}
                                             </p>
                                         </div>
@@ -312,12 +272,12 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                             <!-- Total a Pagar -->
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 35px;">
                                 <tr>
-                                    <td style="padding: 35px 30px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 12px; text-align: center; border: 3px solid #000000;">
+                                    <td style="padding: 35px 30px; background-color: #5B6FDB; border-radius: 12px; text-align: center;">
                                         <div style="font-size: 32px; margin-bottom: 12px;">💵</div>
-                                        <p class="text-muted" style="margin: 0 0 12px 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
+                                        <p style="margin: 0 0 12px 0; color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
                                             Total a Pagar
                                         </p>
-                                        <p class="highlight-amount" style="margin: 0; color: #ffffff; font-size: 42px; font-weight: 600; letter-spacing: -1.5px;">
+                                        <p style="margin: 0; color: #ffffff; font-size: 42px; font-weight: 700; letter-spacing: -1.5px;">
                                             ${formatToARS(data.alquilerNeto)}
                                         </p>
                                     </td>
@@ -329,11 +289,11 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
 
                     <!-- Footer -->
                     <tr>
-                        <td class="footer-bg" style="padding: 35px 40px; background-color: #f8f9fa; border-top: 3px solid #e5e5e5; text-align: center;">
-                            <p class="text-secondary" style="margin: 0 0 8px 0; color: #6b6b6b; font-size: 14px; line-height: 1.6;">
+                        <td style="padding: 35px 40px; background-color: #f7fafc; border-top: 3px solid #e2e8f0; text-align: center;">
+                            <p style="margin: 0 0 8px 0; color: #718096; font-size: 14px; line-height: 1.6;">
                                 Gracias por todo. Cualquier consulta, estamos en contacto. 🤝
                             </p>
-                            <p class="text-primary" style="margin: 0; color: #1a1a1a; font-size: 15px; font-weight: 600;">
+                            <p style="margin: 0; color: #2d3748; font-size: 15px; font-weight: 600;">
                                 Emiliano Rago · Colpayo 616 6B
                             </p>
                         </td>
