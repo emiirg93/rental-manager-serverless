@@ -62,10 +62,13 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                 box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
             }
             .text-primary {
-                color: #e5e5e5 !important;
+                color: #ffffff !important;
             }
             .text-secondary {
                 color: #b0b0b0 !important;
+            }
+            .text-muted {
+                color: #8a8a8a !important;
             }
             .bg-light {
                 background-color: #3a3a3a !important;
@@ -76,6 +79,9 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
             .footer-bg {
                 background-color: #2d2d2d !important;
                 border-top-color: #4a4a4a !important;
+            }
+            .highlight-amount {
+                color: #ffffff !important;
             }
         }
     </style>
@@ -127,10 +133,10 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                                     <div style="font-size: 28px;">🏠</div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <p style="margin: 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px;">
+                                                    <p class="text-muted" style="margin: 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px;">
                                                         Alquiler Bruto
                                                     </p>
-                                                    <p style="margin: 6px 0 0 0; color: #ffffff; font-size: 32px; font-weight: 600; letter-spacing: -1px;">
+                                                    <p class="highlight-amount" style="margin: 6px 0 0 0; color: #ffffff; font-size: 32px; font-weight: 600; letter-spacing: -1px;">
                                                         ${formatToARS(data.alquilerBruto)}
                                                     </p>
                                                 </td>
@@ -164,14 +170,14 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                             ${data.expensas.ordinarias ? `
                                             <tr>
                                                 <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Ordinarias</td>
-                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
                                                     ${formatToARS(data.expensas.ordinarias)}
                                                 </td>
                                             </tr>
                                             ` : ''}
                                             <tr>
                                                 <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Extraordinarias</td>
-                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
                                                     ${formatToARS(data.expensas.extraordinarias)}
                                                 </td>
                                             </tr>
@@ -182,7 +188,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                             </tr>
                                             <tr>
                                                 <td class="text-primary" style="padding: 10px 0; color: #1a1a1a; font-size: 16px; font-weight: 600;">Total</td>
-                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
+                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
                                                     ${formatToARS(data.expensas.total1erVencimiento || data.expensas.extraordinarias)}
                                                 </td>
                                             </tr>
@@ -235,13 +241,13 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                             </tr>
                                             <tr>
                                                 <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Cuota</td>
-                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
                                                     ${data.arreglos.cuotaActual} de ${data.arreglos.cantidadCuotas}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-secondary" style="padding: 10px 0; color: #6b6b6b; font-size: 15px;">Valor a Descontar</td>
-                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
+                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 15px; font-weight: 500;">
                                                     ${formatToARS(data.arreglos.costoPorMes)}
                                                 </td>
                                             </tr>
@@ -252,7 +258,7 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                             </tr>
                                             <tr>
                                                 <td class="text-primary" style="padding: 10px 0; color: #1a1a1a; font-size: 16px; font-weight: 600;">Costo Total</td>
-                                                <td class="text-primary" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
+                                                <td class="text-primary highlight-amount" align="right" style="padding: 10px 0; color: #1a1a1a; font-size: 18px; font-weight: 600;">
                                                     ${formatToARS(data.arreglos.costoTotal)}
                                                 </td>
                                             </tr>
@@ -308,10 +314,10 @@ export const rentalSummaryTemplate = (data: RentalSummaryData): string => {
                                 <tr>
                                     <td style="padding: 35px 30px; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-radius: 12px; text-align: center; border: 3px solid #000000;">
                                         <div style="font-size: 32px; margin-bottom: 12px;">💵</div>
-                                        <p style="margin: 0 0 12px 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
+                                        <p class="text-muted" style="margin: 0 0 12px 0; color: #9b9b9b; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
                                             Total a Pagar
                                         </p>
-                                        <p style="margin: 0; color: #ffffff; font-size: 42px; font-weight: 600; letter-spacing: -1.5px;">
+                                        <p class="highlight-amount" style="margin: 0; color: #ffffff; font-size: 42px; font-weight: 600; letter-spacing: -1.5px;">
                                             ${formatToARS(data.alquilerNeto)}
                                         </p>
                                     </td>
