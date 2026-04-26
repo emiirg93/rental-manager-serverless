@@ -25,7 +25,7 @@
     "@types/aws-lambda": "^8.10.159",
     "@types/node": "^24.10.1",
     "@types/nodemailer": "^7.0.4",
-    "aws-cdk": "2.1033.0",
+    "aws-cdk": "^2.1119.0",
     "aws-sdk": "^2.1691.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3"
