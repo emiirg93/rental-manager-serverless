@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
       
       - name: Install dependencies
         run: npm install
@@ -34,5 +34,7 @@ jobs:
       - name: Deploy with CDK
         run: npx cdk deploy --require-approval never
         env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          ARQUILER_API_HOST: ${{ vars.ARQUILER_API_HOST }}
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}

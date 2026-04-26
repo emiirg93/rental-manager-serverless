@@ -117,13 +117,21 @@ export class RentalManagerServerlessStack extends cdk.Stack {
       UPDATE_RENTAL_VALUE_FUNCTION_NAME: 'UpdateRentalValueFunction',
     };
 
+    // Rol dedicado para evitar dependencia circular con otras lambdas del API
+    const fetchAndUpdateLambdaRole = new iam.Role(this, 'FetchAndUpdateLambdaExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+      ],
+    });
+
     // 🔄 Lambda Function - Fetch desde ARquiler y actualizar valor de alquiler
     const fetchAndUpdateRentalValueFunction = new NodejsFunction(this, 'FetchAndUpdateRentalValueFunction', {
-      runtime: lambda.Runtime.NODEJS_18_X,
+      runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'src/lambdas/rental/fetch-and-update-rental-value/index.ts',
       handler: 'handler',
       environment: fetchAndUpdateLambdaEnvironment,
-      role: lambdaRole,
+      role: fetchAndUpdateLambdaRole,
       timeout: cdk.Duration.seconds(60),
       bundling: {
         minify: false,
