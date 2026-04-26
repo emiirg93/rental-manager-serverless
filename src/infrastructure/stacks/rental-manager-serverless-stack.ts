@@ -109,6 +109,32 @@ export class RentalManagerServerlessStack extends cdk.Stack {
       },
     });
 
+    // 🌍 Variables de entorno para la Lambda de fetch y actualizar
+    const fetchAndUpdateLambdaEnvironment = {
+      ...lambdaEnvironment,
+      ARQUILER_API_HOST: process.env.ARQUILER_API_HOST || '',
+      RAPIDAPI_KEY: process.env.RAPIDAPI_KEY || '',
+      UPDATE_RENTAL_VALUE_FUNCTION_NAME: 'UpdateRentalValueFunction',
+    };
+
+    // 🔄 Lambda Function - Fetch desde ARquiler y actualizar valor de alquiler
+    const fetchAndUpdateRentalValueFunction = new NodejsFunction(this, 'FetchAndUpdateRentalValueFunction', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: 'src/lambdas/rental/fetch-and-update-rental-value/index.ts',
+      handler: 'handler',
+      environment: fetchAndUpdateLambdaEnvironment,
+      role: lambdaRole,
+      timeout: cdk.Duration.seconds(60),
+      bundling: {
+        minify: false,
+        sourceMap: true,
+        target: 'es2020',
+      },
+    });
+
+    // Dar permisos a la lambda fetch-and-update para invocar update-rental-value
+    updateRentalValueFunction.grantInvoke(fetchAndUpdateRentalValueFunction);
+
     // 🌐 API Gateway REST API
     const api = new apigateway.RestApi(this, 'RentalValueApi', {
       restApiName: 'Rental Value Service',
@@ -142,6 +168,10 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     const sendEmail = api.root.addResource('send-email');
     sendEmail.addMethod('POST', new apigateway.LambdaIntegration(sendEmailFunction));
 
+    // POST /sync-rental-value - Sincronizar valor de alquiler desde ARquiler
+    const syncRentalValue = api.root.addResource('sync-rental-value');
+    syncRentalValue.addMethod('POST', new apigateway.LambdaIntegration(fetchAndUpdateRentalValueFunction));
+
     // 📤 Outputs útiles
     new cdk.CfnOutput(this, 'ApiGatewayUrl', {
       value: api.url,
@@ -166,6 +196,11 @@ export class RentalManagerServerlessStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'SendEmailEndpoint', {
       value: `${api.url}send-email`,
       description: 'Endpoint para enviar emails'
+    });
+
+    new cdk.CfnOutput(this, 'SyncRentalValueEndpoint', {
+      value: `${api.url}sync-rental-value`,
+      description: 'Endpoint para sincronizar valor de alquiler desde ARquiler'
     });
   }
 }
